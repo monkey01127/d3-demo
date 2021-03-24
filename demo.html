@@ -1,0 +1,113 @@
+<!--
+ * @Author: lijuan.sun
+ * @Date: 2021-02-04 10:44:16
+ * @LastEditors: lijuan.sun
+ * @LastEditTime: 2021-02-08 10:17:14
+ * @PageTitle: XXX页面
+ * @Description: XXX
+ * @FilePath: \d3-api-demo-master\demo.html
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" content="">
+		<title>for test</title>
+    <style type="text/css">
+    #container {
+      width: 500px;
+      height: 250px;
+      background: #eee;
+    }
+    path {
+      fill: none;
+      stroke-width: 1;
+      stroke: #468284;
+    }
+    .tick line {
+      stroke-width: 1;
+      stroke: black;
+    }
+		</style>
+	</head>
+	<body>
+	<div id="container">
+
+  </div>
+	<script type="text/javascript" src="d3.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.20/lodash.js"></script>
+	<script>
+    var svgW = 500,
+        svgH = 250,
+        margin = {
+          left: 50,
+          top: 30,
+          right: 20,
+          bottom: 20
+        },
+        g_width = svgW - margin.left - margin.right,
+        g_height = svgH - margin.top - margin.bottom;
+
+    var svg = d3.select('#container')
+    .append('svg')
+    .attr('width', svgW)
+    .attr('height', svgH);
+
+    var g = d3.select('svg').append('g')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    var data = [1, 3, 5, 7, 8, 4, 3, 7]
+
+    // 一个线性比例尺
+    var scale_x = d3.scale.linear()
+    // 定义域: 坐标系下的值（输入范围）
+    .domain([0, data.length - 1])
+    // 值域，就是映射到svg画布上的值 （输出范围）
+    .range([0, g_width]);
+
+    // 一个线性比例尺
+    var scale_y = d3.scale.linear()
+    .domain([0, d3.max(data)])
+    .range([g_height, 0]);
+
+
+    // 线形图表
+    // var line_generator = d3.svg.line()
+    //  面积型图表
+    var area_generator = d3.svg.area()
+    .x(function(d, i) {
+      return scale_x(i);
+    })
+    // .y(function(d) {
+    //   return scale_y(d);
+    // })
+    .y0(g_height)
+    .y1(function(d) {
+      return scale_y(d);
+    })
+    .interpolate('cardinal');
+
+    g.append('path')
+    // .attr('d', line_generator(data));
+    .attr('d', area_generator(data))
+    .style('fill', 'steelblue');
+
+    // 创建一个新的轴生成器
+    var x_axis = d3.svg.axis().scale(scale_x);
+        y_axis = d3.svg.axis().scale(scale_y).orient('left');
+
+    g.append('g')
+    .call(x_axis)
+    .attr('transform', `translate(0, ${g_height})`);
+
+    g.append('g')
+    .call(y_axis)
+    .append('text')
+    .text('Price($)')
+    .attr('transform', `rotate(-90)`)
+    .attr('text-anchor', 'end')
+    .attr('dy', '1em')
+    // .attr('transform', `translate(0, ${g_width})`);
+
+	</script>
+	</body>
+</html>

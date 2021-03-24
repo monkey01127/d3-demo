@@ -1,0 +1,65 @@
+<!--
+ * @Author: lijuan.sun
+ * @Date: 2021-02-04 10:44:16
+ * @LastEditors: lijuan.sun
+ * @LastEditTime: 2021-02-18 09:37:43
+ * @PageTitle: XXX页面
+ * @Description: XXX
+ * @FilePath: \d3-api-demo-master\index.html
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" content="">
+		<title>for test</title>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+	<svg></svg>
+	<div id="demoList"></div>
+	<script type="text/javascript" src="d3.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.20/lodash.js"></script>
+	<script>
+		var pathList = [
+			{
+				name: '拖动1',
+				value: 'behavior/drag/drag.html'
+			},
+			{
+				name: '柱形-demo',
+				value: 'demo.html'
+			},
+			{
+				name: '滚动',
+				value: 'behavior/zoom/zoom.html'
+			},
+			{
+				name: '文本排序',
+				value: 'core/array/d3.ascending.html'
+			},
+			{
+				name: '颜色rgb',
+				value: 'core/color/d3.rgb.html'
+			},
+			{
+				name: '格式化',
+				value: 'core/format/d3.format.html'
+			},
+			{
+				name: '坐标',
+				value: 'core/localization/d3.locale.html'
+			}
+		]
+		var i = 0;
+		var lens = _.size(pathList);
+		var fullPathList = []
+		_.forIn(pathList, v => {
+			fullPathList.push(`<li><a href="${v.value}">${v.name}</a></li>`);
+			// window.document.getElementById("demoList").appendChild(`<a href="${v}"></a>`)
+		})
+		var listStr = `<ul>${fullPathList.join("")}</ul>`;
+		window.document.getElementById("demoList").innerHTML = listStr;
+	</script>
+	</body>
+</html>
